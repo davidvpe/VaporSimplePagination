@@ -9,7 +9,7 @@ VaporSimplePagination is a little wrapper to use pagination known by other frame
 Add the following dependency to your `Package.swift`
 
 ```swift
-.Package(url: "https://github.com/mludi/VaporSimplePagination",  majorVersion: 0)
+.Package(url: "https://github.com/davidvpe/VaporSimplePagination",  majorVersion: 0)
 ```
 
 Run `vapor build --clean` to install it
