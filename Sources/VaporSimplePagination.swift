@@ -2,10 +2,17 @@ import Vapor
 import Fluent
 
 public extension Model {
-    static func paginate(limit inLimit: Int = 10, page inPage: Int = 1, description inDescription: String = "data") -> JSON? {
-        guard let total = try? self.query().count() else { return nil }
+    static func paginate(limit inLimit: Int = 10, page inPage: Int = 1, description inDescription: String = "data", filterToAdd filter:Query<Self>? = nil) -> JSON? {
+        
+        guard var query = try? self.query() else{
+            return nil
+        }
+        if filter != nil {
+            query = filter!
+        }
+        
+        guard let total = try? query.count() else { return nil }
         let offset = inLimit * (inPage - 1)
-        guard let query = try? self.query().makeQuery() else { return nil }
         query.limit = Limit(count: inLimit, offset: offset)
         guard let allItems = try? query.all() else { return nil }
         let totalPages = (total + inLimit - 1) / inLimit
