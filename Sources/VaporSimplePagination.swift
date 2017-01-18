@@ -8,9 +8,12 @@ public extension Model {
             return nil
         }
         guard let total = try? filter.count() else { return nil }
+        
+        filter.action = .fetch
+        
         let offset = inLimit * (inPage - 1)
         filter.limit = Limit(count: inLimit, offset: offset)
-        guard let allItems = try? filter.run() else { return nil }
+        guard let allItems = try? filter.all() else { return nil }
         let totalPages = (total + inLimit - 1) / inLimit
         if allItems.count == 0 { return nil }
         guard let theJsonObject = try? JSON(node:[
